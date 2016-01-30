@@ -29,10 +29,10 @@ public:
     void takeSnapShot(){
         take = true;
     }
-    void update(Detect detects[5]){
+    void update(Detect *detects[5]){
         if (!take) return;
         for (int i=0; i< sizeof(detects); i++) {
-            if (detects[i].isDetected) {
+            if (detects[i]->isDetected) {
                 ofImage ss;
                 ss.grabScreen(0, 0, 640, 480);
                 std::ostringstream oss;
