@@ -32,7 +32,8 @@ public:
     ofImageQualityType quality;
     void reset();
     ofVideoGrabber grabber;
-    Detect detects[QTY_DETECT];
+    //Detect detects[QTY_DETECT];
+    Detect *detects[QTY_DETECT];
     
     snapShot snapshot;
     

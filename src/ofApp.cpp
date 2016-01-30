@@ -13,7 +13,7 @@ void ofApp::setup(){
     video.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
     
     for (int i=0; i<QTY_DETECT; i++) {
-        detects[i] = *new Detect();  // 検出した顔を管理するオブジェクト
+        detects[i] = new Detect();  // 検出した顔を管理するオブジェクト
     }
     
     snapshot = *new snapShot();  // スクリーンショット用オブジェクト
@@ -73,7 +73,7 @@ void ofApp::draw(){
         }
         
         ofBufferToFile(fileName, file);  // glitchしたファイルを保存
-        detects[i].set(curx, cury, curw, curh);
+        detects[i]->set(curx, cury, curw, curh);
         
     }
     
@@ -81,14 +81,14 @@ void ofApp::draw(){
     // 再度読込みして顔に貼り付け
     for(unsigned int i = 0; i < QTY_DETECT; i++) {
         cout << i << "'s ";
-        detects[i].check();
-        if (!detects[i].isDetected) continue;
+        detects[i]->check();
+        if (!detects[i]->isDetected) continue;
         ofImage loadImg;
         std::ostringstream oss;
         oss << "faces_" << i << ".jpg";
         std::string fileName = oss.str();
         if (!loadImg.load(fileName)) break;
-        loadImg.draw(detects[i].x, detects[i].y);
+        loadImg.draw(detects[i]->x, detects[i]->y);
     }
     
     snapshot.update(detects);  // スクリーンショット撮影
@@ -158,5 +158,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 }
 //--------------------------------------------------------------
 void ofApp::exit(){
-    
+    for(unsigned int i = 0; i < QTY_DETECT; i++) {
+        delete detects[i];
+    }
 }
